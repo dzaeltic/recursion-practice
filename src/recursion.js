@@ -154,11 +154,22 @@ return reverse(string.slice(0, -1), n);
 };
 
 // 10. Write a function that determines if a string is a palindrome.
-var palindrome = function(string) {
-
-
-
-
+var palindrome = function(string, bw = '', i = string.length - 1) {
+string = string.toLowerCase();
+if (string.includes(' ')) {
+  string = string.split(' ').join('');
+}
+  //BASE
+if (i < 0 && string === bw){
+  return true;
+}
+if (i < 0) {
+  return false;
+}
+//RECURSION
+if (string[i] !== undefined){ bw += string[i] }
+i--;
+return palindrome(string, bw, i);
   
 };
 
@@ -175,6 +186,21 @@ var modulo = function(x, y) {
 // JavaScript's Math object.
 // ATTENTION DO NOT LEAVE COMMENTS IN THIS FUNCTION. The test is looking for any ('/').
 var multiply = function(x, y) {
+  if (x < 0 && y < 0) {
+    x -= x + x;
+    y -= y + y;
+  }
+  
+  if(y === 0) {
+    return 0;
+  }
+
+  if (y < 0 && x > 0) {
+      return -x + multiply(x, y + 1);
+  
+  }
+    
+  return x + multiply(x, y - 1);
 };
 
 // 13. Write a function that divides two numbers without using the / operator  or
@@ -196,12 +222,34 @@ var gcd = function(x, y) {
 // compareStr('house', 'houses') // false
 // compareStr('', '') // true
 // compareStr('tomato', 'tomato') // true
-var compareStr = function(str1, str2) {
-};
+var compareStr = function(str1, str2, new1 = '', new2 = '') {
+  //BASE
+    if (str1.length === 0 && str2.length === 0 && new1 === new2) {
+    return true;
+  }
+    
+  if (str1.length === 0 && str2.length === 0 && new1 !== new2) {
+    return false;
+  }
+  
+    //RECURSION
+  new1 += str1[0];
+  new2 += str2[0];
+  return compareStr(str1.slice(1), str2.slice(1), new1, new2);
+  };
+  
 
 // 16. Write a function that accepts a string and creates an array where each letter
 // occupies an index of the array.
-var createArray = function(str){
+var createArray = function(str, arr = []){
+//BASE
+if (str.length === 0) {
+  return arr;
+}
+//RECURSION
+arr.push(str[0]);
+return createArray(str.slice(1), arr);
+
 };
 
 // 17. Reverse the order of an array
