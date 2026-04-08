@@ -327,17 +327,40 @@ var fibonacci = function(n) {
 // nthFibo(7); // 13
 // nthFibo(3); // 2
 var nthFibo = function(n) {
+  //BASE
+  if (n < 0) {
+    return null;
+  }
+  if (n <= 1) {
+    return n;
+  }
+  //RECURSION
+  return nthFibo(n - 1) + nthFibo(n - 2);
 };
 
 // 26. Given an array of words, return a new array containing each word capitalized.
 // var words = ['i', 'am', 'learning', 'recursion'];
 // capitalizedWords(words); // ['I', 'AM', 'LEARNING', 'RECURSION']
-var capitalizeWords = function(input) {
+var capitalizeWords = function(input, out = []) {
+//BASE 
+  if(!input.length) {
+    return out;
+  }
+//RECURSION
+out.push(input[0].toUpperCase());
+return capitalizeWords(input.slice(1), out);
 };
 
 // 27. Given an array of strings, capitalize the first letter of each index.
 // capitalizeFirst(['car', 'poop', 'banana']); // ['Car', 'Poop', 'Banana']
-var capitalizeFirst = function(array) {
+var capitalizeFirst = function(input, out = []) {
+  //BASE 
+  if(!input.length) {
+    return out;
+  }
+//RECURSION
+out.push(input[0][0].toUpperCase() + input[0].slice(1));
+return capitalizeFirst(input.slice(1), out);
 };
 
 // 28. Return the sum of all even numbers in an object containing nested objects.
@@ -359,15 +382,45 @@ var flatten = function(arrays) {
 
 // 30. Given a string, return an object containing tallies of each letter.
 // letterTally('potato'); // {'p':1, 'o':2, 't':2, 'a':1}
-var letterTally = function(str, obj) {
-};
+var letterTally = function(str, obj = {}) {
+  //BASE
+  if (!str.length) {
+    return obj;
+  }
+  if(obj[str[0]]) {
+    obj[str[0]]++;
+  }  
+  if(!obj[str[0]]) {
+    obj[str[0]] = 1;
+  }
+  //RECURSION
+  return letterTally(str.slice(1), obj);
+
+  };
+
 
 // 31. Eliminate consecutive duplicates in a list.  If the list contains repeated
 // elements they should be replaced with a single copy of the element. The order of the
 // elements should not be changed.
 // Example: compress([1, 2, 2, 3, 4, 4, 5, 5, 5]) // [1, 2, 3, 4, 5]
 // Example: compress([1, 2, 2, 3, 4, 4, 2, 5, 5, 5, 4, 4]) // [1, 2, 3, 4, 2, 5, 4]
-var compress = function(list) {
+var compress = function(list, cond = [], upd = 4004) {
+//BASE
+if(!list.length) {
+  return cond;
+}
+if(!cond.includes(list[0])) {
+  cond.push(list[0]);
+  upd = list[0];
+return compress(list.slice(1), cond, upd);
+}
+if (cond.includes(list[0]) && upd !== list[0]) {
+  cond.push(list[0]);
+}
+
+//RECURSION
+upd = list[0];
+return compress(list.slice(1), cond, upd);
 };
 
 // 32. Augment every element in a list with a new value where each element is an array
@@ -379,7 +432,18 @@ var augmentElements = function(array, aug) {
 // 33. Reduce a series of zeroes to a single 0.
 // minimizeZeroes([2,0,0,0,1,4]) // [2,0,1,4]
 // minimizeZeroes([2,0,0,0,1,0,0,4]) // [2,0,1,0,4]
-var minimizeZeroes = function(array) {
+var minimizeZeroes = function(array, out = [], upd = 546) {
+//BASE0
+if (!array.length) {
+  return out;
+}
+if (upd !== 0 && array[0] === 0) {
+  out.push(array[0]);
+}
+//RECURSION
+upd = array[0];
+return minimizeZeroes(array.slice(1), out, upd)
+
 };
 
 // 34. Alternate the numbers in an array between positive and negative regardless of
